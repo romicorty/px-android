@@ -6,7 +6,6 @@ apply plugin:'maven-publish'
 apply plugin:'com.jfrog.bintray'
 apply plugin:'com.github.dcendents.android-maven'
 
-
 task androidJavadocs(type:Javadoc) {
     failOnError = false
     options.encoding = 'UTF-8'
