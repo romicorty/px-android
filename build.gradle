@@ -28,7 +28,10 @@ allprojects {
             url "http://dl.bintray.com/mercadolibre/android-public"
         }
     }
-
-
 }
 
+
+wrapper {
+    gradleVersion = '4.9'
+    distributionType = Wrapper.DistributionType.BIN
+}
