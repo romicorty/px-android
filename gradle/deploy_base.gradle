@@ -17,6 +17,7 @@ task androidJavadocs(type:Javadoc) {
     }
     exclude '**/BuildConfig.java'
     exclude '**/R.java'
+    exclude '**/internal/**'
 }
 
 task androidJavadocsJar(type:Jar, dependsOn:androidJavadocs) {
