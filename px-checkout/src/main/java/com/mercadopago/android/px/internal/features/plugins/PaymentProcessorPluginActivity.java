@@ -109,7 +109,7 @@ public final class PaymentProcessorPluginActivity extends AppCompatActivity
     public void process(final GenericPayment genericPayment) {
         final Intent intent = new Intent();
         intent.putExtra(EXTRA_GENERIC_PAYMENT, genericPayment);
-        //TODO ver que pasa si saco eso del checkout store
+        //TODO delete from checkout store
         final PaymentResult paymentResult = toPaymentResult(genericPayment);
         CheckoutStore.getInstance().setPaymentResult(paymentResult);
         setResult(RESULT_OK, intent);
