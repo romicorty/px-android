@@ -9,12 +9,15 @@ buildscript {
         classpath 'com.android.tools.build:gradle:3.0.1'
         classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.3'
         classpath 'com.github.dcendents:android-maven-gradle-plugin:2.0'
+        classpath 'com.netflix.nebula:gradle-aggregate-javadocs-plugin:3.0.1'
     }
 }
 
 ext {
     travisBuild = System.getenv("TRAVIS") as boolean
 }
+
+apply plugin: 'nebula-aggregate-javadocs'
 
 allprojects {
     repositories {
@@ -25,4 +28,7 @@ allprojects {
             url "http://dl.bintray.com/mercadolibre/android-public"
         }
     }
+
+
 }
+
