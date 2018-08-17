@@ -1,9 +1,9 @@
 [![Build Status](https://travis-ci.org/mercadopago/px-android.svg?branch=master)](https://travis-ci.org/mercadopago/px-android)
 [![Codecov branch](https://img.shields.io/codecov/c/github/mercadopago/px-android/develop.svg)](https://codecov.io/gh/mercadopago/px-android/)
 
-# MercadoPago - Android SDK
+# MercadoPago - Android Payment Experience
 
-The MercadoPago Android SDK makes it easy to collect your user's credit card details inside your android app. By creating tokens, MercadoPago handles the bulk of PCI compliance by preventing sensitive card data from hitting your server.
+The MercadoPago Android Payment Experience makes it easy to collect your user's credit card details inside your android app. By creating tokens, MercadoPago handles the bulk of PCI compliance by preventing sensitive card data from hitting your server.
 
 ![Screenshot MercadoPago](https://cloud.githubusercontent.com/assets/11367894/20360662/5f3947dc-ac13-11e6-94d9-9a938f6b2cff.png)
 
@@ -13,14 +13,7 @@ The MercadoPago Android SDK makes it easy to collect your user's credit card det
 
 Add this line to your app's `build.gradle` inside the `dependencies` section:
 
-    compile 'com.mercadopago:sdk:3.8.1'
-
-### Eclipse
-
-1. Clone the repository.
-2. Be sure you've installed the Android SDK with API Level 25 and _android-support-v7_
-3. Import the _sdk_ folder into Android Studio
-4. Add the folder as library.
+    implementation 'com.mercadopago.android:px-checkout:4.0.0'
 
 ## Documentation
 
