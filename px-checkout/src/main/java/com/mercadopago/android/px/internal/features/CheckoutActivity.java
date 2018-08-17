@@ -30,8 +30,10 @@ import com.mercadopago.android.px.internal.viewmodel.BusinessPaymentModel;
 import com.mercadopago.android.px.internal.viewmodel.CardPaymentModel;
 import com.mercadopago.android.px.internal.viewmodel.CheckoutStateModel;
 import com.mercadopago.android.px.internal.viewmodel.OneTapModel;
+import com.mercadopago.android.px.internal.viewmodel.mappers.BusinessPaymentMapper;
 import com.mercadopago.android.px.model.BusinessPayment;
 import com.mercadopago.android.px.model.Card;
+import com.mercadopago.android.px.model.GenericPayment;
 import com.mercadopago.android.px.model.Issuer;
 import com.mercadopago.android.px.model.Payer;
 import com.mercadopago.android.px.model.Payment;
@@ -280,6 +282,12 @@ public class CheckoutActivity extends MercadoPagoBaseActivity implements Checkou
             final BusinessPayment businessPayment = PaymentProcessorPluginActivity.getBusinessPayment(data);
             presenter.onBusinessResult(businessPayment);
         } else {
+
+            if (PaymentProcessorPluginActivity.isGeneric(data)) {
+                final GenericPayment genericPayment = PaymentProcessorPluginActivity.getGenericPayment(data);
+                presenter.onGenericResult(genericPayment);
+            }
+            //TODO delete from checkout store
             final PaymentResult paymentResult = CheckoutStore.getInstance().getPaymentResult();
             presenter.checkStartPaymentResultActivity(paymentResult);
         }
@@ -581,6 +589,15 @@ public class CheckoutActivity extends MercadoPagoBaseActivity implements Checkou
     public void exitCheckout(final int resCode) {
         overrideTransitionOut();
         setResult(resCode);
+        finish();
+    }
+
+    @Override
+    public void exitCheckout(final int resCode, final Payment payment) {
+        overrideTransitionOut();
+        final Intent intent = new Intent();
+        intent.putExtra(EXTRA_PAYMENT_RESULT, payment);
+        setResult(resCode, intent);
         finish();
     }
 

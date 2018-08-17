@@ -3,8 +3,9 @@ package com.mercadopago.android.px.model;
 import android.support.annotation.NonNull;
 import com.mercadopago.android.px.internal.features.plugins.PluginPayment;
 import com.mercadopago.android.px.internal.features.plugins.Processor;
+import java.io.Serializable;
 
-public class GenericPayment implements PluginPayment {
+public class GenericPayment implements PluginPayment, Serializable {
 
     public final Long paymentId;
     public final String status;

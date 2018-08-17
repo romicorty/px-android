@@ -27,11 +27,14 @@ import com.mercadopago.android.px.internal.viewmodel.BusinessPaymentModel;
 import com.mercadopago.android.px.internal.viewmodel.CardPaymentModel;
 import com.mercadopago.android.px.internal.viewmodel.CheckoutStateModel;
 import com.mercadopago.android.px.internal.viewmodel.OneTapModel;
+import com.mercadopago.android.px.internal.viewmodel.mappers.BusinessPaymentMapper;
+import com.mercadopago.android.px.internal.viewmodel.mappers.GenericPaymentMapper;
 import com.mercadopago.android.px.model.BusinessPayment;
 import com.mercadopago.android.px.model.Campaign;
 import com.mercadopago.android.px.model.Card;
 import com.mercadopago.android.px.model.Cause;
 import com.mercadopago.android.px.model.Discount;
+import com.mercadopago.android.px.model.GenericPayment;
 import com.mercadopago.android.px.model.Issuer;
 import com.mercadopago.android.px.model.Payer;
 import com.mercadopago.android.px.model.Payment;
@@ -754,6 +757,8 @@ public class CheckoutPresenter extends MvpPresenter<CheckoutView, CheckoutProvid
     }
 
     public void onBusinessResult(final BusinessPayment businessPayment) {
+        state.createdPayment = new BusinessPaymentMapper().map(businessPayment);
+
         //TODO look for a better option than singleton, it make it not testeable.
         final PaymentData paymentData = CheckoutStore.getInstance().getPaymentData();
 
@@ -770,6 +775,10 @@ public class CheckoutPresenter extends MvpPresenter<CheckoutView, CheckoutProvid
                 getCheckoutPreference().getSite().getCurrencyId(),
                 amountRepository.getAmountToPay(), lastFourDigits);
         getView().showBusinessResult(model);
+    }
+
+    public void onGenericResult(final GenericPayment genericPayment) {
+        state.createdPayment = new GenericPaymentMapper().map(genericPayment);
     }
 
     private void finishCheckout() {
@@ -800,7 +809,11 @@ public class CheckoutPresenter extends MvpPresenter<CheckoutView, CheckoutProvid
      * Close checkout with resCode
      */
     public void exitWithCode(final int resCode) {
-        getView().exitCheckout(resCode);
+        if (state.createdPayment == null) {
+            getView().exitCheckout(resCode);
+        } else {
+            getView().exitCheckout(resCode, state.createdPayment);
+        }
     }
 
     public void onChangePaymentMethodFromReviewAndConfirm() {
@@ -851,4 +864,5 @@ public class CheckoutPresenter extends MvpPresenter<CheckoutView, CheckoutProvid
     public boolean isUniquePaymentMethod() {
         return state.isUniquePaymentMethod;
     }
+
 }

@@ -66,4 +66,6 @@ public interface CheckoutView extends MvpView {
     void showSavedCardFlow(Card card);
 
     void showNewCardFlow();
+
+    void exitCheckout(int resCode, Payment createdPayment);
 }

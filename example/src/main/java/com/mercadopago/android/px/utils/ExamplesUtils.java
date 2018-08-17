@@ -72,17 +72,19 @@ public final class ExamplesUtils {
                         .append(REQUESTED_CODE_MESSAGE)
                         .append(requestCode)
                         .append(RESULT_CODE_MESSAGE)
-
                         .append(resultCode), Toast.LENGTH_LONG)
                         .show();
                 }
             } else {
 
+                final Payment payment = (Payment) data.getSerializableExtra(MercadoPagoCheckout.EXTRA_PAYMENT_RESULT);
+
                 Toast.makeText(context, new StringBuilder()
                     .append(REQUESTED_CODE_MESSAGE)
                     .append(requestCode)
                     .append(RESULT_CODE_MESSAGE)
-                    .append(resultCode), Toast.LENGTH_LONG)
+                    .append(resultCode)
+                    .append(payment == null ? "" : (" , " + payment + " ")), Toast.LENGTH_LONG)
                     .show();
             }
         }

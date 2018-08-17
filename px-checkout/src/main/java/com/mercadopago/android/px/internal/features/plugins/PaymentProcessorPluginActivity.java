@@ -26,6 +26,7 @@ public final class PaymentProcessorPluginActivity extends AppCompatActivity
     implements PaymentProcessor.OnPaymentListener, Processor {
 
     private static final String EXTRA_BUSINESS_PAYMENT = "extra_business_payment";
+    private static final String EXTRA_GENERIC_PAYMENT = "extra_generic_payment";
     private static final String PROCESSOR_FRAGMENT = "PROCESSOR_FRAGMENT";
 
     public static Intent getIntent(@NonNull final Context context) {
@@ -36,9 +37,18 @@ public final class PaymentProcessorPluginActivity extends AppCompatActivity
         return intent != null && intent.getExtras() != null && intent.getExtras().containsKey(EXTRA_BUSINESS_PAYMENT);
     }
 
+    public static boolean isGeneric(@Nullable final Intent intent) {
+        return intent != null && intent.getExtras() != null && intent.getExtras().containsKey(EXTRA_GENERIC_PAYMENT);
+    }
+
     @Nullable
     public static BusinessPayment getBusinessPayment(final Intent intent) {
         return (BusinessPayment) intent.getExtras().get(EXTRA_BUSINESS_PAYMENT);
+    }
+
+    @Nullable
+    public static GenericPayment getGenericPayment(final Intent intent) {
+        return (GenericPayment) intent.getExtras().get(EXTRA_GENERIC_PAYMENT);
     }
 
     @Override
@@ -79,18 +89,11 @@ public final class PaymentProcessorPluginActivity extends AppCompatActivity
 
     private PaymentResult toPaymentResult(@NonNull final GenericPayment genericPayment) {
 
-        final Payment payment = new Payment();
-        payment.setId(genericPayment.paymentId);
-        payment.setPaymentMethodId(genericPayment.paymentData.getPaymentMethod().getId());
-        payment.setPaymentTypeId(PaymentTypes.PLUGIN);
-        payment.setStatus(genericPayment.status);
-        payment.setStatusDetail(genericPayment.statusDetail);
-
         return new PaymentResult.Builder()
             .setPaymentData(genericPayment.paymentData)
-            .setPaymentId(payment.getId())
-            .setPaymentStatus(payment.getStatus())
-            .setPaymentStatusDetail(payment.getStatusDetail())
+            .setPaymentId(genericPayment.paymentId)
+            .setPaymentStatus(genericPayment.status)
+            .setPaymentStatusDetail(genericPayment.statusDetail)
             .build();
     }
 
@@ -104,9 +107,12 @@ public final class PaymentProcessorPluginActivity extends AppCompatActivity
 
     @Override
     public void process(final GenericPayment genericPayment) {
+        final Intent intent = new Intent();
+        intent.putExtra(EXTRA_GENERIC_PAYMENT, genericPayment);
+        //TODO ver que pasa si saco eso del checkout store
         final PaymentResult paymentResult = toPaymentResult(genericPayment);
         CheckoutStore.getInstance().setPaymentResult(paymentResult);
-        setResult(RESULT_OK);
+        setResult(RESULT_OK, intent);
         finish();
     }
 
