@@ -77,7 +77,10 @@ public final class ExamplesUtils {
                 }
             } else {
 
-                final Payment payment = (Payment) data.getSerializableExtra(MercadoPagoCheckout.EXTRA_PAYMENT_RESULT);
+                Payment payment = null;
+                if (data != null) {
+                    payment = (Payment) data.getSerializableExtra(MercadoPagoCheckout.EXTRA_PAYMENT_RESULT);
+                }
 
                 Toast.makeText(context, new StringBuilder()
                     .append(REQUESTED_CODE_MESSAGE)
