@@ -1027,6 +1027,11 @@ public class CheckoutPresenterTest {
         }
 
         @Override
+        public void exitCheckout(final int resCode, final Payment createdPayment) {
+            //Do nothing
+        }
+
+        @Override
         public void transitionOut() {
             //Do nothing
         }
